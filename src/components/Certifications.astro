@@ -1,14 +1,25 @@
 ---
-const { certifications } = Astro.props;
+
+interface Certification {
+  title: string;
+  description: string;
+}
+
+
+const { certifications }:Record<string, any> = Astro.props;
+ 
+
 ---
 
 <section class="mb-12">
   <h2 class="text-3xl font-bold text-center mb-6">Certificaciones</h2>
-  <ul class="list-disc list-inside">
-    {certifications.map(cert => (
-      <li key={cert.title}>
-        <strong>{cert.title}</strong> - {cert.issuer}
+  <ul>
+    {certifications.map((cert: Certification) => (
+      <li >
+        <h3>{cert.title}</h3>
+        <p>{cert.description}</p>
       </li>
     ))}
   </ul>
+  
 </section>
