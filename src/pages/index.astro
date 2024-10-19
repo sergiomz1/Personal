@@ -10,79 +10,128 @@ import Testimonials from '../components/Testimonials.astro';
 import SocialLinks from '../components/SocialLinks.astro';
 import ContactForm from '../components/ContactForm.astro';
 import { getGitHubRepos } from '../components/api.astro';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebook } from '@fortawesome/free-brands-svg-icons'; // Cambiado a "free-brands-svg-icons"
+import { faGithub, faLinkedin, faTwitter } from '@fortawesome/free-brands-svg-icons'; // Si usas otros íconos de marcas
+import '../styles/global.css';
 
 // Secciones del portafolio
 const certifications = [
-  { title: 'Certificación 1', issuer: 'Instituto ABC' },
-  { title: 'Certificación 2', issuer: 'Instituto XYZ' },
+  { title: ' 1', issuer: 'SENA - REDES Y SEGURIDAD' },
+  { title: '2', issuer: 'SENA - BASES DE DATOS CON MYSQL' },
+  { title: '3', issuer: 'SENA - APROPIACION DE CONCEPTOS BASICOS DE JAVA' },
+  { title: '4', issuer: 'SENA - APROPIACION DE CONCEPTOS BASICOS DE PHP' }
 ];
 
 const testimonials = [
-  { author: 'Nombre del testimonio', quote: 'Cita del testimonio' },
-  { author: 'Nombre del testimonio', quote: 'Cita del testimonio' },
+  { author: 'Juan Perez', quote: 'Este es el mejor servicio que he usado.' },
+  { author: 'Ana Gomez', quote: 'Realmente me ayudo a mejorar mis habilidades.' },
+  { author: 'Luis Torres', quote: 'Una experiencia increible, lo recomiendo a todos.' },
+  { author: 'Maria Lopez', quote: 'El apoyo recibido fue excepcional.' },
+  { author: 'Carlos Martinez', quote: 'Nunca pense que podria aprender tanto en tan poco tiempo.' },
 ];
 
+// Función para obtener un testimonio aleatorio
+const getRandomTestimonial = () => {
+  const randomIndex = Math.floor(Math.random() * testimonials.length);
+  return testimonials[randomIndex];
+};
+
+// Uso de la función
+const randomTestimonial = getRandomTestimonial();
+console.log(randomTestimonial);
+
 const links = [
-  { name: 'GitHub', url: 'https://github.com/tu-usuario' },
-  { name: 'LinkedIn', url: 'https://www.linkedin.com/in/tu-usuario' },
-  { name: 'Twitter', url: 'https://twitter.com/tu-usuario' },
-  { name: 'Instagram', url: 'https://www.instagram.com/tu-usuario' },
+  { name: 'GitHub', url: 'https://github.com/tu-usuario', icon: faGithub },
+  { name: 'LinkedIn', url: 'https://www.linkedin.com/in/tu-usuario', icon: faLinkedin },
+  { name: 'Facebook', url: 'https://www.facebook.com/tu-usuario', icon: faFacebook },
 ];
+
 
 const apiResponse = await getGitHubRepos();
 const projects = apiResponse.repos; // Los repositorios obtenidos
-const apiMessage = apiResponse.success ? 'La API de GitHub funciona correctamente.' : 'La API de GitHub no funciona.';
+const apiMessage = apiResponse.success ? '' : 'La API de GitHub no funciona.';
 ---
 
 <Layout>
   <Header />
 
   <main class="container mx-auto p-4">
-    <About />
-    
-    <!-- Mostrar mensaje de estado de la API -->
-    <h1 class="text-2xl font-bold text-center mb-4">{apiMessage}</h1>
+    <div class="flex justify-between">
+      <!-- Sección "Sobre mí" -->
+      <About />
+    <div>
 
-    <!-- Sección de proyectos -->
-    <section id="projects" class="my-8">
-      <h2 class="text-2xl font-bold text-center mb-4">Mis Proyectos</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {projects.map((repo) => (
-          <ProjectCard 
-            key={repo.html_url} 
-            title={repo.name} 
-            description={repo.description} 
-            image={repo.imageUrl || ''} // Si tienes imágenes, añádelas aquí
-            link={repo.html_url} 
-          />
-        ))}
-      </div>
-    </section>
-
-    <!-- Sección de habilidades -->
-    <section id="skills" class="my-8 text-center">
-      <h2 class="text-2xl font-bold mb-4">Mis Habilidades</h2>
-      <ul class="list-disc list-inside inline-block text-left">
-        <li>JavaScript</li>
-        <li>React</li>
-        <li>Node.js</li>
-        <li>Tailwind CSS</li>
-        <li>Astro</li>
-      </ul>
-    </section>
-
-    <!-- Sección de certificaciones -->
-    <Certifications certifications={certifications} />
-
-    <!-- Sección de testimonios -->
-    <Testimonials testimonials={testimonials} />
-
+      <div class="w-full"> <!-- Cambiado para ocupar todo el ancho -->
+        <!-- Sección de habilidades -->
+        <section id="skills" class="my-8 text-center"> <!-- Eliminado el ancho fijo -->
+          <h2 class="text-2xl font-bold mb-4">Mis Habilidades</h2>
+          <div class="flex justify-center">
+            <ul class="list-disc list-inside text-left max-w-xs">
+              <li class="text-md mb-2">JavaScript</li>
+              <li class="text-md mb-2">React</li>
+              <li class="text-md mb-2">Node.js</li>
+              <li class="text-md mb-2">Tailwind CSS</li>
+              <li class="text-md mb-2">Astro</li>
+            </ul>
+          </div>
+        </section>
+      
+        <!-- Sección de certificaciones -->
+        <Certifications certifications={certifications} />
+        
     <!-- Sección de enlaces a redes sociales -->
     <SocialLinks links={links} />
+      </div>
+      
+ 
 
-    <!-- Sección de contacto -->
-    <ContactForm />
+    </div>
+        <!-- Mostrar mensaje de estado de la API -->
+        <h1 class="text-2xl font-bold text-center mb-4">{apiMessage}</h1>
+
+        <!-- Sección de proyectos -->
+        <section id="projects" class="my-8">
+          <h2 class="text-2xl font-bold text-center mb-4">Mis Proyectos</h2>
+          <div class="grid grid-cols-1 gap-4"> <!-- Usar solo una columna -->
+            {projects.map((repo) => (
+              <ProjectCard 
+                key={repo.html_url} 
+                title={repo.name} 
+                description={repo.description} 
+                image={repo.imageUrl || ''} // Si tienes imágenes, añádelas aquí
+                link={repo.html_url} 
+              />
+            ))}
+          </div>
+        </section>
+        
+
+
+
+    </div>
+    
+
+      
+
+
+
+        <div>
+        <Testimonials testimonials={testimonials} />
+  }
+        <ContactForm />
+
+        </div>
+    
+   
+    
+
+      
+
   </main>
+
+   
+
 
   <Footer />
 </Layout>

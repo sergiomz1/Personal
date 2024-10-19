@@ -1,13 +1,21 @@
 /** @type {import('tailwindcss').Config} */
+// tailwind.config.js
 module.exports = {
   content: [
-    "./src/**/*.{astro,html,js,jsx,ts,tsx}",
-    "./node_modules/flowbite/**/*.js" 
+    "./src/**/*.{astro,html,js,jsx,ts,tsx}", // Asegúrate de que esta ruta incluya tus archivos de componentes
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        viajar: {
+          1: '#2D4B73',
+          2: '#253C59',
+          3: '#99B4BF',
+          4: '#D9B70D',
+          5: '#BF8D30',
+        },
+      },
+    },
   },
-  plugins: [
-    require('flowbite/plugin') 
-  ],
+  plugins: [],
 }

@@ -3,14 +3,38 @@
 const { testimonials } = Astro.props;
 ---
 
-<section class="mb-12">
-  <h2 class="text-3xl font-bold text-center mb-6">Testimonios</h2>
-  <div class="space-y-4">
+<div class="flex justify-between">
+  <!-- Componente de testimonios alineado a la izquierda -->
+ <section class="mb-12 w-1/2"> <!-- Asignar un ancho del 50% -->
+  <h2 class="text-3xl font-bold text-left mb-6">Testimonios</h2>
+  <div class="max-w-md space-y-4">
     {testimonials.map(test => (
-      <blockquote class="bg-gray-100 p-4 rounded-lg">
-        <p class="italic">"{test.quote}"</p>
-        <cite class="block text-right text-gray-600">- {test.author}</cite>
+      <blockquote class="bg-white rounded-lg p-4 transition-transform transform hover:scale-105">
+        <p class="italic text-gray-800">"{test.quote}"</p>
+        <cite class="block text-right text-gray-600 mt-2">- {test.author}</cite>
       </blockquote>
     ))}
   </div>
 </section>
+
+
+<!-- Formulario alineado a la derecha -->
+<form class="bg-white p-4 rounded-lg shadow-md max-w-md w-1/2 mx-auto" method="POST" action="/send-message">
+  <h2 class="text-lg font-bold mb-3 text-center text-viajar-1">Contactame</h2>
+
+  <label class="block mb-1 text-viajar-2" for="name">Nombre</label>
+  <input type="text" id="name" name="name" class="w-full border border-viajar-3 p-1 rounded mb-3 focus:outline-none focus:ring-2 focus:ring-viajar-4" required />
+
+  <label class="block mb-1 text-viajar-2" for="email">Correo Electronico</label>
+  <input type="email" id="email" name="email" class="w-full border border-viajar-3 p-1 rounded mb-3 focus:outline-none focus:ring-2 focus:ring-viajar-4" required />
+
+  <label class="block mb-1 text-viajar-2" for="message">Mensaje</label>
+  <textarea id="message" name="message" class="w-full border border-viajar-3 p-1 rounded mb-3 focus:outline-none focus:ring-2 focus:ring-viajar-4" rows="2" required></textarea>
+
+  <button type="submit" class="w-full bg-viajar-4 hover:bg-viajar-5 text-white font-bold py-1 rounded transition duration-300 ease-in-out transform hover:scale-105">
+    Enviar
+  </button>
+</form>
+
+
+</div>

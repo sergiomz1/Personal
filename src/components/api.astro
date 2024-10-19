@@ -42,7 +42,7 @@ export async function getGitHubRepos() {
     
     // Filtra los repositorios para obtener solo los que son de JavaScript
     const allRepos: Repo[] = await response.json();
-    const jsRepos = allRepos.filter(repo => repo.language === 'JavaScript').slice(0, 3); // Obtiene solo los primeros 3
+    const jsRepos = allRepos.filter(repo => repo.language === 'JavaScript').slice(0, 2); // Obtiene solo los primeros 3
 
     // Obtiene imágenes de Pexels
     const imagesResponse = await getPexelsImages('software');

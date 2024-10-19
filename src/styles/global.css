@@ -2,7 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Estilos adicionales */
+/* Global.css */
+
+/* Definición de la paleta de colores */
+:root {
+  --color-viajar-1: #2D4B73;
+  --color-viajar-2: #253C59;
+  --color-viajar-3: #99B4BF;
+  --color-viajar-4: #D9B70D;
+  --color-viajar-5: #BF8D30;
+}
+
+/* Estilos generales */
 body {
-  @apply bg-gray-100 text-gray-800;
+  background-color: var(--color-viajar-3);
+  color: var(--color-viajar-2);
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Estilos de secciones */
+section {
+  padding: 2rem;
+  margin: 1rem 0;
+  border-radius: 0.5rem;
+  background-color: rgba(153, 180, 191, 0.9);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease; /* Agregar transición de color */
+}
+
+/* Estilos para títulos */
+h1, h2, h3, h4 {
+  color: var(--color-viajar-1);
+  margin: 0.5rem 0;
+}
+
+/* Estilos de enlaces */
+a {
+  color: var(--color-viajar-4);
+  text-decoration: none;
+  transition: color 0.3s ease; /* Transición suave al cambiar de color */
 }
