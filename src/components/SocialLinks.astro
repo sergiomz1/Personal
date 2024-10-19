@@ -1,11 +1,19 @@
 ---
 
 // Props: links (array de objetos con 'name', 'url' y 'icon')
-const { links } = Astro.props;
+// Definir el tipo Link
+interface Link {
+  name: string;
+  url: string;
+  icon: string;
+}
+
+// Utilizamos el tipo Record<string, any> para manejar dinámicamente las props
+const { links }: Record<string, any> = Astro.props;
 ---
 
 <div class="flex flex-col items-center mb-12">
-  {links.map(link => (
+  {links.map((link: Link) => (
     <a href={link.url} target="_blank" class="flex items-center text-blue-500 hover:text-blue-700 mb-2" aria-label={link.name}>
       <img src={link.icon} alt={`${link.name} icon`} class="w-6 h-6 mr-2" /> {/* Icono */}
       <span class="text-lg">{link.name}</span> {/* Texto del enlace */}
