@@ -1,0 +1,16 @@
+---
+// Props: testimonials (array de objetos con 'author' y 'quote')
+const { testimonials } = Astro.props;
+---
+
+<section class="mb-12">
+  <h2 class="text-3xl font-bold text-center mb-6">Testimonios</h2>
+  <div class="space-y-4">
+    {testimonials.map(test => (
+      <blockquote class="bg-gray-100 p-4 rounded-lg">
+        <p class="italic">"{test.quote}"</p>
+        <cite class="block text-right text-gray-600">- {test.author}</cite>
+      </blockquote>
+    ))}
+  </div>
+</section>

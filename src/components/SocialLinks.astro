@@ -1,0 +1,12 @@
+---
+// Props: links (array de objetos con 'name' y 'url')
+const { links } = Astro.props;
+---
+
+<div class="flex justify-center space-x-4 mb-12">
+  {links.map(link => (
+    <a href={link.url} target="_blank" class="text-blue-500 hover:text-blue-700" aria-label={link.name}>
+      <span>{link.name}</span>
+    </a>
+  ))}
+</div>
