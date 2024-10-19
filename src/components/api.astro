@@ -5,11 +5,30 @@ interface Repo {
   description: string;
   html_url: string;
   language: string;
+  imageUrl?: string; // Propiedad opcional para la imagen
 }
 
-// Función para obtener repositorios de GitHub
+// Función para obtener imágenes de Pexels
+export async function getPexelsImages(query: string) {
+  const pexelsApiKey = 'OHiaAMI1GhFGYwBzJtNzHCzLGaIjESwifm0ZPBzdmK98rHGNSO6VYLv7'; // Reemplaza con tu API Key de Pexels
+  const url = `https://api.pexels.com/v1/search?query=${query}&per_page=3`;
+  
+  const response = await fetch(url, {
+    headers: {
+      Authorization: pexelsApiKey,
+    },
+  });
+
+  if (response.ok) {
+    return await response.json(); // Devuelve los resultados de la búsqueda
+  } else {
+    console.error('Error al obtener imágenes de Pexels:', response.statusText);
+    return { photos: [] }; // Devuelve un array vacío si hay un error
+  }
+}
+
 export async function getGitHubRepos() {
-  const username = 'sergiomz1'; // Tu nombre de usuario de GitHub
+  const username = 'sergiomz1'; // Usuario de GitHub
   const url = `https://api.github.com/users/${username}/repos`;
 
   const response = await fetch(url, {
@@ -20,7 +39,21 @@ export async function getGitHubRepos() {
 
   if (response.ok) {
     console.log('La API de GitHub funciona.');
-    return { success: true, repos: await response.json() }; // Devuelve los repositorios si la API funciona
+    
+    // Filtra los repositorios para obtener solo los que son de JavaScript
+    const allRepos: Repo[] = await response.json();
+    const jsRepos = allRepos.filter(repo => repo.language === 'JavaScript').slice(0, 3); // Obtiene solo los primeros 3
+
+    // Obtiene imágenes de Pexels
+    const imagesResponse = await getPexelsImages('software');
+    const images = imagesResponse.photos;
+
+    // Asigna imágenes de Pexels a los repositorios
+    jsRepos.forEach((repo, index) => {
+      repo.imageUrl = images[index]?.src?.medium || 'https://via.placeholder.com/150'; // Imagen de Pexels o por defecto
+    });
+    
+    return { success: true, repos: jsRepos }; 
   } else {
     console.error('Error al obtener repositorios de GitHub:', response.statusText);
     console.log('La API de GitHub no funciona.');
@@ -28,4 +61,3 @@ export async function getGitHubRepos() {
   }
 }
 ---
-
