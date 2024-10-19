@@ -9,33 +9,12 @@ import Certifications from '../components/Certifications.astro';
 import Testimonials from '../components/Testimonials.astro';
 import SocialLinks from '../components/SocialLinks.astro';
 import ContactForm from '../components/ContactForm.astro';
+import { getGitHubRepos } from '../components/api.astro';
 
-// ecciones del portafolio
-const projects = [
-  {
-    title: 'Proyecto 1',
-    description: 'proyecto 1.',
-    image: 'https://via.placeholder.com/300',
-    link: '#'
-  },
-  {
-    title: 'Proyecto 2',
-    description: 'proyecto 2.',
-    image: 'https://via.placeholder.com/300',
-    link: '#'
-  },
-  {
-    title: 'Proyecto 3',
-    description: 'proyecto 3.',
-    image: 'https://via.placeholder.com/300',
-    link: '#'
-  }
-];
-
+// Secciones del portafolio
 const certifications = [
   { title: 'Certificación 1', issuer: 'Instituto ABC' },
   { title: 'Certificación 2', issuer: 'Instituto XYZ' },
-
 ];
 
 const testimonials = [
@@ -48,7 +27,11 @@ const links = [
   { name: 'LinkedIn', url: 'https://www.linkedin.com/in/tu-usuario' },
   { name: 'Twitter', url: 'https://twitter.com/tu-usuario' },
   { name: 'Instagram', url: 'https://www.instagram.com/tu-usuario' },
-];	
+];
+
+const apiResponse = await getGitHubRepos();
+const projects = apiResponse.repos; // Los repositorios obtenidos
+const apiMessage = apiResponse.success ? 'La API de GitHub funciona correctamente.' : 'La API de GitHub no funciona.';
 ---
 
 <Layout>
@@ -56,18 +39,21 @@ const links = [
 
   <main class="container mx-auto p-4">
     <About />
+    
+    <!-- Mostrar mensaje de estado de la API -->
+    <h1 class="text-2xl font-bold text-center mb-4">{apiMessage}</h1>
 
     <!-- Sección de proyectos -->
     <section id="projects" class="my-8">
       <h2 class="text-2xl font-bold text-center mb-4">Mis Proyectos</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {projects.map(project => (
+        {projects.map((repo) => (
           <ProjectCard 
-            title={project.title} 
-            description={project.description} 
-            image={project.image} 
-            link={project.link} 
-            key={project.title}  //  clave única
+            key={repo.html_url} 
+            title={repo.name} 
+            description={repo.description} 
+            image={repo.imageUrl || ''} // Si tienes imágenes, añádelas aquí
+            link={repo.html_url} 
           />
         ))}
       </div>
@@ -95,9 +81,7 @@ const links = [
     <SocialLinks links={links} />
 
     <!-- Sección de contacto -->
-		 <ContactForm />
- 
-    </section>
+    <ContactForm />
   </main>
 
   <Footer />
