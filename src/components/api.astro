@@ -1,0 +1,31 @@
+---
+// Definición de la interfaz Repo
+interface Repo {
+  name: string;
+  description: string;
+  html_url: string;
+  language: string;
+}
+
+// Función para obtener repositorios de GitHub
+export async function getGitHubRepos() {
+  const username = 'sergiomz1'; // Tu nombre de usuario de GitHub
+  const url = `https://api.github.com/users/${username}/repos`;
+
+  const response = await fetch(url, {
+    headers: {
+      Accept: 'application/vnd.github.v3+json',
+    },
+  });
+
+  if (response.ok) {
+    console.log('La API de GitHub funciona.');
+    return { success: true, repos: await response.json() }; // Devuelve los repositorios si la API funciona
+  } else {
+    console.error('Error al obtener repositorios de GitHub:', response.statusText);
+    console.log('La API de GitHub no funciona.');
+    return { success: false, repos: [] }; // Devuelve un objeto vacío si hay un error
+  }
+}
+---
+
